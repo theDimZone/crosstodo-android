@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        sign {
+            keyAlias 'key'
+            keyPassword 'bobr31'
+            storeFile file('C:/Users/thedi/signfile.jks')
+            storePassword 'bobr31'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.thedimzone.crosstodo"
@@ -14,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.sign
         }
     }
 }

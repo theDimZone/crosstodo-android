@@ -29,14 +29,16 @@ public class Todo {
         return this.text;
     }
 
-    public void setText(String text)
-    {
-        this.text = text;
-    }
+    public void setText(String text) { this.text = text; }
 
     public boolean isCompleted()
     {
         return this.completed;
+    }
+
+    public void changeCompleted()
+    {
+        this.completed = !this.completed;
     }
 
     public void setCompleted(boolean completed)
