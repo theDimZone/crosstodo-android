@@ -1,0 +1,9 @@
+<resources>
+    <string name="newProjectHeadline">Новая задача</string>
+    <string name="newProjectEdit">Название</string>
+    <string name="newProjectCategory">КАТЕГОРИЯ:</string>
+
+    <string name="requestIndex">http://projectcrosstodo.herokuapp.com/</string>
+    <string name="requestCreate">http://projectcrosstodo.herokuapp.com/todo_list/create</string>
+    <string name="requestUpdate">"http://projectcrosstodo.herokuapp.com/todo_list/update"</string>
+</resources>
