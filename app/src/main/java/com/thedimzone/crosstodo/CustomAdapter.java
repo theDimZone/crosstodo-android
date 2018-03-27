@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.CompoundButton;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
-import android.util.Log;
+import android.graphics.Paint;
 
 class CustomAdapter extends BaseAdapter {
 
@@ -102,8 +102,15 @@ class CustomAdapter extends BaseAdapter {
 
         holder.textView.setText(TodoList.get(position).getText());
         if(rowType == TYPE_ITEM) {
+            if(TodoList.get(position).isCompleted()) {
+                holder.textView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            } else  {
+                holder.textView.setPaintFlags(Paint.ANTI_ALIAS_FLAG);
+            }
+
             holder.checkBox.setChecked(TodoList.get(position).isCompleted());
-            holder.checkBox.setTag(TodoList.get(position));
+            holder.checkBox.setTag(holder.textView);
+            holder.textView.setTag(holder.checkBox);
 
 
             holder.checkBox.setOnClickListener(new CheckBox.OnClickListener(){
@@ -113,8 +120,13 @@ class CustomAdapter extends BaseAdapter {
                     boolean checked = ((CheckBox)v).isChecked();
                     TodoList.get(position).changeCompleted();
 
+                    if(checked) {
+                        ((TextView) v.getTag()).setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        ((TextView) v.getTag()).setPaintFlags(Paint.ANTI_ALIAS_FLAG);
+                    }
                     JsonObject params = new JsonObject();
-                    params.addProperty("todo_id", ((Todo) v.getTag()).getId());
+                    params.addProperty("todo_id", TodoList.get(position).getId());
 
                     Ion.with(contextParent)
                             .load(contextParent.getString(R.string.requestUpdate))
@@ -124,6 +136,38 @@ class CustomAdapter extends BaseAdapter {
                 }
 
             });
+
+            holder.textView.setOnClickListener(new CheckBox.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    TodoList.get(position).changeCompleted();
+
+                    //boolean isChecked = ((CheckBox) v.findViewById(R.id.check)).isChecked();
+                    //((CheckBox) v.findViewById(R.id.check)).setChecked(!isChecked);
+                    boolean isChecked = ((CheckBox) v.getTag()).isChecked();
+                    ((CheckBox) v.getTag()).setChecked(!isChecked);
+
+                    if(((CheckBox) v.getTag()).isChecked()) {
+                        ((TextView) v).setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        ((TextView) v).setPaintFlags(Paint.ANTI_ALIAS_FLAG);
+                    }
+
+
+                    JsonObject params = new JsonObject();
+                    //params.addProperty("todo_id", ((Todo) v.getTag()).getId());
+                    params.addProperty("todo_id", TodoList.get(position).getId());
+
+                    Ion.with(contextParent)
+                            .load(contextParent.getString(R.string.requestUpdate))
+                            .setHeader("Content-Type", "application/json")
+                            .setJsonObjectBody(params)
+                            .asJsonObject();
+                }
+
+            });
+
         }
 
         return convertView;

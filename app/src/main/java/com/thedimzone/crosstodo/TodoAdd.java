@@ -20,6 +20,8 @@ import com.koushikdutta.ion.Ion;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import android.util.Log;
+
 public class TodoAdd extends Activity {
     private String projectName;
     private ArrayList<Integer> projectIds;
@@ -61,7 +63,7 @@ public class TodoAdd extends Activity {
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
                 projectId = projectIds.get(position);
-                projectName = String.valueOf(((TextView) itemClicked).getText());
+                projectName = (((TextView) itemClicked).getText().toString());
                 ((TextView) findViewById(R.id.categoryProject)).setText(projectName);
             }
         });
@@ -76,9 +78,9 @@ public class TodoAdd extends Activity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.cancel:
-                finish();
-                return true;
+            //case R.id.cancel:
+             //   finish();
+            //    return true;
             case R.id.add:
                 EditText editText = (EditText) findViewById(R.id.editText);
                 String text = String.valueOf(editText.getText());
